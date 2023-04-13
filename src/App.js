@@ -5,15 +5,19 @@ import {
   Routes,
 } from "react-router-dom";
 import './App.css';
-import  Main  from './pages/Main';
+import Header from './components/Header';
+// import Bottombar from './components/Bottombar';
+import Main from './pages/Main';
 
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
-          <Route path="/" element={<Main />} />
+        <Route path="/" element={<Main />} />
       </Routes>
+      {/* <Bottombar /> */}
     </BrowserRouter>
   );
 }
