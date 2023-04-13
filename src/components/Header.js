@@ -3,11 +3,20 @@ import styled from 'styled-components'
 import BPMGLogo from '../assets/images/BPMG.png'
 
 
+import { metaMaskLogin } from '../web3/web3'
+
+
 function Header() {
+
+    const ConnetWalletHandle = async () => {
+        metaMaskLogin();
+    }
+    
+
   return (
     <BackGround>
         <BPMGLogoImg src={BPMGLogo} alt="BPMG Logo"/> 
-        <ConnectButton>Connet Wallet</ConnectButton>
+        <ConnectButton onClick={ConnetWalletHandle}>Connet Wallet</ConnectButton>
     </BackGround>
   )
 }

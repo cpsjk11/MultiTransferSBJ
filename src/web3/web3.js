@@ -1,6 +1,6 @@
 import Web3 from "web3"
-import ABI from "./ABI.json"
-import tokenABI from "./tokenABI.json"
+import ABI from "../abi/ABI.json"
+import tokenABI from "../abi/tokenABI.json"
 const Caver = require("caver-js")
 const caver = new Caver("https://api.baobab.klaytn.net:8651/")
 
@@ -48,9 +48,14 @@ async function checkAccount () {
 
 /** 해당 컨트랙트에 appvoe 승인 개수를 확인하는 함수 */
 async function getAllowance(account, contractAddress, tokenAddress) {
-  const contract = new web3.eth.Contract(tokenABI, tokenAddress)
+  const contract = getContract(tokenABI, tokenAddress)
   const allowance = await contract.methods.allowance(account, contractAddress).call()
   return allowance
+}
+
+/** 컨트랙트 반환 함수 */
+function getContract(ABI, contractAddress,) {
+  return new web3.eth.Contract(ABI, contractAddress)
 }
 
 /** 해당 토큰 컨트랙트애 approve 수행하는 함수 */
@@ -58,7 +63,7 @@ export const setApprove = async (account, contractAddress, tokenAddress, amount)
 
   if (! (await checkAccount())) return alert('Please check your account!')
   
-  const contract = new web3.eth.Contract(tokenABI, tokenAddress)
+  const contract = getContract(tokenABI, tokenAddress)
 
   const allowance = await getAllowance(account, contractAddress, tokenAddress)
 
@@ -91,7 +96,7 @@ export const setTransferCondition = async (account, contractAddress, tokenAddres
     
     if (! (await checkAccount())) return alert('Please check your account!')
 
-    const contract = new web3.eth.Contract(ABI, contractAddress)
+    const contract = getContract(ABI, contractAddress)
 
     const conditionLimit = await contract.methods.setTransferCondition(tokenAddress, minimumAmount).estimateGas({ from: account })
 
@@ -120,7 +125,7 @@ export const transfer = async (account, contractAddress, amount, recipiemts) => 
 
   if (! (await checkAccount())) return alert('Please check your account!')
 
-  const contract = new web3.eth.Contract(ABI, contractAddress)
+  const contract = getContract(ABI, contractAddress)
 
   const transferLimit = await contract.methods.transfer(amount, recipiemts).estimateGas({ from: account })
 
@@ -148,7 +153,7 @@ export const multiTransfer = async (account, contractAddress, amounts, recipiemt
 
   if (! (await checkAccount())) return alert('Please check your account!')
 
-  const contract = new web3.eth.Contract(ABI, contractAddress)
+  const contract = getContract(ABI, contractAddress)
 
   const transferLimit = await contract.methods.transfer(amounts, recipiemts).estimateGas({ from: account })
 
