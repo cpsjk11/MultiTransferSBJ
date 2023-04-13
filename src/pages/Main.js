@@ -4,8 +4,6 @@ import { AiFillCaretDown } from "react-icons/ai";
 
 function Main() {
 
-
-
   return (
     <BackGround>
         <CenterBox>
